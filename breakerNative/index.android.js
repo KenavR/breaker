@@ -1,52 +1,48 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
-class breakerNative extends Component {
+import Landing from './app/landing/index.android';
+import Auth from './app/landing/auth.android';
+
+
+class BreakerNative extends Component {
+
+
+  renderScene(route, navigator) {
+    if (route.name == 'Landing') {
+      return <Landing navigator={navigator}/>
+    }
+    if (route.name == 'Auth') {
+      return <Auth navigator={navigator}/>
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+      <Navigator
+        style={{ flex:1 }}
+        initialRoute={{ name: 'Landing', component: Landing }}
+        configureScene={() => {
+          return Navigator.SceneConfigs.FloatFromRight;
+        }}
+        renderScene={ (route, navigator) => {
+          if (route.name == 'Landing') {
+            return <Landing navigator={navigator}/>
+          }
+          if (route.name == 'Auth') {
+            return <Auth navigator={navigator}/>
+          }
+        }
+        }
+      />
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('breakerNative', () => breakerNative);
+AppRegistry.registerComponent('breakerNative', () => BreakerNative);
